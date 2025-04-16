@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -82,6 +83,7 @@ export default {
         sm: "0.25rem"
       },
       boxShadow: {
+        none: "none",
         DEFAULT: "none",
         sm: "none",
         md: "none",
