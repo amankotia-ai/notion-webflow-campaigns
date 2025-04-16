@@ -11,7 +11,7 @@ export function MainLayout({ children }: MainLayoutProps) {
     <div className="flex h-screen bg-background">
       <Sidebar />
       <div className="flex-1 overflow-auto">
-        <div className="container py-6 h-full">
+        <div className="container py-6 px-8 max-w-[900px] mx-auto h-full">
           {children}
         </div>
       </div>
