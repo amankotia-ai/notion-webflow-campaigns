@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,20 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				blue: {
+					DEFAULT: '#0071e3',
+					hover: '#0262c4',
+				},
+				'notion-gray': '#f5f5f5',
+				'notion-text': '#37352f',
+				'notion-subtle': '#6b7280',
+				'notion-border': '#e5e5e5',
+				'notion-blue': '#2563eb',
+				'notion-green': '#10b981',
+				'notion-yellow': '#f59e0b',
+				'notion-red': '#ef4444',
+				'notion-purple': '#8b5cf6',
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -89,7 +103,10 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out'
-			}
+			},
+			fontFamily: {
+				'notion': ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Helvetica', 'Apple Color Emoji', 'Arial', 'sans-serif', 'Segoe UI Emoji', 'Segoe UI Symbol'],
+			},
 		}
 	},
 	plugins: [require("tailwindcss-animate")],

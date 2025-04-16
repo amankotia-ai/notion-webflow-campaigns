@@ -5,34 +5,34 @@
 
 @layer base {
   :root {
-    /* Notion-like color palette */
+    /* Notion-inspired color palette */
     --background: 0 0% 100%;
-    --foreground: 0 0% 10%;
+    --foreground: 40 6% 21%; /* notion-text */
 
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 10%;
+    --card-foreground: 40 6% 21%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 10%;
+    --popover-foreground: 40 6% 21%;
 
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 214 100% 45%; /* notion-blue */
+    --primary-foreground: 0 0% 100%;
 
     --secondary: 0 0% 96%;
-    --secondary-foreground: 0 0% 9%;
+    --secondary-foreground: 40 6% 21%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 9%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 0 0% 40%;
+    --ring: 215 20.2% 65.1%;
 
     --radius: 0.3rem;
 
@@ -47,42 +47,42 @@
   }
 
   .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 60 9.1% 97.8%;
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
 
-    --card: 20 14.3% 4.1%;
-    --card-foreground: 60 9.1% 97.8%;
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
 
-    --popover: 20 14.3% 4.1%;
-    --popover-foreground: 60 9.1% 97.8%;
+    --popover: 224 71% 4%;
+    --popover-foreground: 215 20.2% 65.1%;
 
-    --primary: 60 9.1% 97.8%;
-    --primary-foreground: 24 9.8% 10%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 1.2%;
 
-    --secondary: 12 6.5% 15.1%;
-    --secondary-foreground: 60 9.1% 97.8%;
+    --secondary: 222.2 47.4% 11.2%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 12 6.5% 15.1%;
-    --muted-foreground: 24 5.4% 63.9%;
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
 
-    --accent: 12 6.5% 15.1%;
-    --accent-foreground: 60 9.1% 97.8%;
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 60 9.1% 97.8%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 12 6.5% 15.1%;
-    --input: 12 6.5% 15.1%;
-    --ring: 24 5.7% 82.9%;
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 216 34% 17%;
 
-    --sidebar-background: 20 14.3% 4.1%;
-    --sidebar-foreground: 60 9.1% 97.8%;
-    --sidebar-primary: 60 9.1% 97.8%;
-    --sidebar-primary-foreground: 24 9.8% 10%;
-    --sidebar-accent: 12 6.5% 15.1%;
-    --sidebar-accent-foreground: 60 9.1% 97.8%;
-    --sidebar-border: 12 6.5% 15.1%;
-    --sidebar-ring: 24 5.7% 82.9%;
+    --sidebar-background: 224 71% 4%;
+    --sidebar-foreground: 213 31% 91%;
+    --sidebar-primary: 210 40% 98%;
+    --sidebar-primary-foreground: 222.2 47.4% 1.2%;
+    --sidebar-accent: 222.2 47.4% 11.2%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222.2 47.4% 11.2%;
+    --sidebar-ring: 213 31% 91%;
   }
 }
 
@@ -92,14 +92,14 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-notion;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
     -webkit-font-smoothing: antialiased;
   }
   
   h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
+    color: #37352f;
   }
   
   h1 {
@@ -114,6 +114,11 @@
     letter-spacing: -0.01em;
   }
   
+  h3 {
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+  
   input, button, select, textarea {
     font-family: inherit;
   }
@@ -125,19 +130,59 @@
 
 @layer components {
   .notion-card {
-    @apply border border-border rounded-md p-4 bg-card hover:bg-secondary/40 transition-colors duration-200 cursor-pointer;
+    @apply border border-notion-border rounded-md p-4 bg-card hover:bg-secondary/40 transition-colors duration-200 cursor-pointer;
   }
   
   .notion-button {
-    @apply px-3 py-1.5 text-sm rounded-md border border-border hover:bg-secondary transition-colors duration-150;
+    @apply px-3 py-1.5 text-sm rounded-md border border-notion-border hover:bg-secondary transition-colors duration-150;
   }
   
   .notion-input {
-    @apply rounded-md border border-border px-3 py-1.5 text-sm focus:ring-1 focus:ring-primary/30 focus:border-primary/30 outline-none w-full transition-all;
+    @apply rounded-md border border-notion-border px-3 py-1.5 text-sm focus:ring-1 focus:ring-primary/30 focus:border-primary/30 outline-none w-full transition-all;
   }
   
   .notion-page-header {
-    @apply pb-4 mb-6 border-b border-border;
+    @apply pb-4 mb-6 border-b border-notion-border;
+  }
+
+  .notion-table {
+    @apply w-full border-collapse;
+  }
+
+  .notion-table th {
+    @apply py-2 px-3 text-left text-sm font-medium text-notion-subtle bg-notion-gray;
+  }
+
+  .notion-table td {
+    @apply py-2 px-3 text-sm border-t border-notion-border;
+  }
+
+  .notion-blue-button {
+    @apply bg-blue text-white font-medium px-4 py-1.5 rounded-md hover:bg-blue-hover transition-colors text-sm;
+  }
+  
+  .notion-status-badge {
+    @apply inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium;
+  }
+
+  .notion-status-badge-green {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .notion-status-badge-red {
+    @apply bg-red-100 text-red-800;
+  }
+
+  .notion-status-badge-yellow {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+
+  .notion-progress-bar {
+    @apply w-full h-2 bg-gray-200 rounded-full overflow-hidden;
+  }
+
+  .notion-progress-bar-fill {
+    @apply h-full bg-blue;
   }
 }
 
