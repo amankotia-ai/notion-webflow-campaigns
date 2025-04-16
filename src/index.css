@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -89,6 +88,7 @@
 @layer base {
   * {
     @apply border-border;
+    box-shadow: none !important; // Force remove all shadows
   }
 
   body {
@@ -130,11 +130,11 @@
 
 @layer components {
   .notion-card {
-    @apply border border-notion-border rounded-md p-4 bg-card hover:bg-secondary/40 transition-colors duration-200 cursor-pointer;
+    @apply border border-notion-border rounded-md p-4 bg-card hover:bg-secondary/40 transition-colors duration-200 cursor-pointer shadow-none; // Remove shadow
   }
   
   .notion-button {
-    @apply px-3 py-1.5 text-sm rounded-md border border-notion-border hover:bg-secondary transition-colors duration-150;
+    @apply px-3 py-1.5 text-sm rounded-md border border-notion-border hover:bg-secondary transition-colors duration-150 shadow-none; // Remove shadow
   }
   
   .notion-input {
