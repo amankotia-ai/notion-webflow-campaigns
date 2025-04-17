@@ -9,13 +9,248 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      analytics: {
+        Row: {
+          campaign_id: string
+          content_rule_id: string | null
+          created_at: string
+          event_type: string
+          id: string
+          referrer: string | null
+          user_agent: string | null
+          user_id: string
+          visitor_ip: string | null
+          webpage_url: string
+        }
+        Insert: {
+          campaign_id: string
+          content_rule_id?: string | null
+          created_at?: string
+          event_type: string
+          id?: string
+          referrer?: string | null
+          user_agent?: string | null
+          user_id: string
+          visitor_ip?: string | null
+          webpage_url: string
+        }
+        Update: {
+          campaign_id?: string
+          content_rule_id?: string | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          referrer?: string | null
+          user_agent?: string | null
+          user_id?: string
+          visitor_ip?: string | null
+          webpage_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "analytics_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "analytics_content_rule_id_fkey"
+            columns: ["content_rule_id"]
+            isOneToOne: false
+            referencedRelation: "content_rules"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      campaigns: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          status: string | null
+          user_id: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+          webpage_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          status?: string | null
+          user_id: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          webpage_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          status?: string | null
+          user_id?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          webpage_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "campaigns_webpage_id_fkey"
+            columns: ["webpage_id"]
+            isOneToOne: false
+            referencedRelation: "webpages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      content_rules: {
+        Row: {
+          active: boolean | null
+          campaign_id: string
+          created_at: string
+          element_id: string
+          element_name: string
+          id: string
+          new_content: string
+          original_content: string | null
+          user_id: string
+        }
+        Insert: {
+          active?: boolean | null
+          campaign_id: string
+          created_at?: string
+          element_id: string
+          element_name: string
+          id?: string
+          new_content: string
+          original_content?: string | null
+          user_id: string
+        }
+        Update: {
+          active?: boolean | null
+          campaign_id?: string
+          created_at?: string
+          element_id?: string
+          element_name?: string
+          id?: string
+          new_content?: string
+          original_content?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "content_rules_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "campaigns"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      webpages: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          script_installed: boolean | null
+          url: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          script_installed?: boolean | null
+          url: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          script_installed?: boolean | null
+          url?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_campaign_rules: {
+        Args: {
+          webpage_url: string
+          p_utm_source?: string
+          p_utm_medium?: string
+          p_utm_campaign?: string
+          p_utm_term?: string
+          p_utm_content?: string
+        }
+        Returns: {
+          element_id: string
+          original_content: string
+          new_content: string
+        }[]
+      }
+      get_public_rules: {
+        Args: {
+          webpage_url: string
+          p_utm_source?: string
+          p_utm_medium?: string
+          p_utm_campaign?: string
+          p_utm_term?: string
+          p_utm_content?: string
+        }
+        Returns: {
+          element_id: string
+          new_content: string
+        }[]
+      }
+      track_content_rule_event: {
+        Args: {
+          p_campaign_id: string
+          p_content_rule_id: string
+          p_webpage_url: string
+          p_event_type: string
+          p_visitor_ip?: string
+          p_user_agent?: string
+          p_referrer?: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never

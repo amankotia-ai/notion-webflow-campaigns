@@ -1,1 +1,5 @@
+
 project_id = "kqfbuyqiylcgxrgpcuqq"
+
+[functions.get-rules]
+verify_jwt = false
