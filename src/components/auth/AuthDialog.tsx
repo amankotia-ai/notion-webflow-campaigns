@@ -1,11 +1,12 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/components/ui/use-toast";
+import { useAuth } from "./AuthProvider";
 
 export function AuthDialog() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,16 @@ export function AuthDialog() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const { user } = useAuth();
+
+  // Automatically open dialog when not authenticated
+  useEffect(() => {
+    if (!user) {
+      setIsOpen(true);
+    } else {
+      setIsOpen(false);
+    }
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +48,7 @@ export function AuthDialog() {
           description: "Please check your email to verify your account.",
         });
       }
-      setIsOpen(false);
+      // Don't close dialog here - let the auth state change do it
     } catch (error: any) {
       toast({
         title: "Error",
