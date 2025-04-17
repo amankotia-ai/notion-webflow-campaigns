@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Check, Globe, Key, Lock, User, Users, Bell, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -9,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState("profile");
