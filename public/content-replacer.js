@@ -1,7 +1,8 @@
 
 (function() {
   // Configuration
-  const RULES_ENDPOINT = 'https://kqfbuyqiylcgxrgpcuqq.supabase.co/functions/v1/get-rules';
+  const SUPABASE_URL = 'https://kqfbuyqiylcgxrgpcuqq.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtxZmJ1eXFpeWxjZ3hyZ3BjdXFxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ5MDY3NDMsImV4cCI6MjA2MDQ4Mjc0M30.o-Wkh18mqTdv3PpN4GHpimHnx01w7iLv5RVDt23lU80';
   const CACHE_KEY = 'content_rules_cache';
   const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
@@ -43,6 +44,32 @@
     }));
   }
 
+  // Function to fetch rules using Supabase RPC
+  async function fetchRules() {
+    const params = {
+      webpage_url: window.location.origin + window.location.pathname,
+      ...getUtmParams()
+    };
+
+    try {
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/get_public_rules`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=representation'
+        },
+        body: JSON.stringify(params)
+      });
+
+      if (!response.ok) throw new Error('Failed to fetch rules');
+      return await response.json();
+    } catch (error) {
+      console.error('Error fetching content rules:', error);
+      return [];
+    }
+  }
+
   // Function to fetch and apply rules
   async function fetchAndApplyRules() {
     // Check cache first
@@ -52,21 +79,10 @@
       return;
     }
 
-    // Build query params
-    const params = new URLSearchParams({
-      url: window.location.origin + window.location.pathname,
-      ...getUtmParams()
-    });
-
-    try {
-      const response = await fetch(`${RULES_ENDPOINT}?${params.toString()}`);
-      if (!response.ok) throw new Error('Failed to fetch rules');
-      
-      const rules = await response.json();
+    const rules = await fetchRules();
+    if (rules && rules.length > 0) {
       cacheRules(rules);
       applyRules(rules);
-    } catch (error) {
-      console.error('Error fetching content rules:', error);
     }
   }
 
