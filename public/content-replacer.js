@@ -1,4 +1,3 @@
-
 (function() {
   // Configuration
   const SUPABASE_URL = 'https://kqfbuyqiylcgxrgpcuqq.supabase.co';
@@ -44,8 +43,30 @@
     }));
   }
 
+  // Function to track performance metrics
+  async function trackPerformance(webpage_id, cacheHit, responseTime) {
+    try {
+      await fetch(`${SUPABASE_URL}/rest/v1/caching_stats`, {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON_KEY,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          webpage_id,
+          cache_hit: cacheHit,
+          response_time: responseTime,
+          user_id: 'anonymous' // This will be replaced by actual user_id in dashboard
+        })
+      });
+    } catch (error) {
+      console.error('Error tracking performance:', error);
+    }
+  }
+
   // Function to fetch rules using Supabase RPC
   async function fetchRules() {
+    const startTime = performance.now();
     const params = {
       webpage_url: window.location.origin + window.location.pathname,
       ...getUtmParams()
@@ -63,7 +84,19 @@
       });
 
       if (!response.ok) throw new Error('Failed to fetch rules');
-      return await response.json();
+      const rules = await response.json();
+      const responseTime = Math.round(performance.now() - startTime);
+      
+      // Track performance
+      if (response.headers.get('x-webpage-id')) {
+        trackPerformance(
+          response.headers.get('x-webpage-id'),
+          false,
+          responseTime
+        );
+      }
+      
+      return rules;
     } catch (error) {
       console.error('Error fetching content rules:', error);
       return [];
@@ -72,10 +105,16 @@
 
   // Function to fetch and apply rules
   async function fetchAndApplyRules() {
+    const startTime = performance.now();
+    
     // Check cache first
     const cachedRules = getCachedRules();
     if (cachedRules) {
       applyRules(cachedRules);
+      // Track cache hit
+      if (window.webpageId) {
+        trackPerformance(window.webpageId, true, Math.round(performance.now() - startTime));
+      }
       return;
     }
 

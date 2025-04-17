@@ -63,6 +63,41 @@ export type Database = {
           },
         ]
       }
+      caching_stats: {
+        Row: {
+          cache_hit: boolean
+          created_at: string
+          id: string
+          response_time: number
+          user_id: string
+          webpage_id: string
+        }
+        Insert: {
+          cache_hit: boolean
+          created_at?: string
+          id?: string
+          response_time: number
+          user_id: string
+          webpage_id: string
+        }
+        Update: {
+          cache_hit?: boolean
+          created_at?: string
+          id?: string
+          response_time?: number
+          user_id?: string
+          webpage_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "caching_stats_webpage_id_fkey"
+            columns: ["webpage_id"]
+            isOneToOne: false
+            referencedRelation: "webpages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       campaigns: {
         Row: {
           created_at: string
@@ -181,6 +216,7 @@ export type Database = {
       webpages: {
         Row: {
           created_at: string
+          embed_key: string | null
           id: string
           name: string
           script_installed: boolean | null
@@ -189,6 +225,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          embed_key?: string | null
           id?: string
           name: string
           script_installed?: boolean | null
@@ -197,6 +234,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          embed_key?: string | null
           id?: string
           name?: string
           script_installed?: boolean | null
