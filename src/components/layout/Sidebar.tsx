@@ -35,29 +35,23 @@ export function Sidebar() {
   ];
 
   return (
-    <div className="w-[220px] h-screen bg-[#f7f6f3] border-r border-[#ebebea] flex flex-col">
-      <div className="p-3 h-[45px] flex items-center border-b border-[#ebebea]">
-        <h1 className="text-[14px] font-medium text-[#37352f] ml-2">UTM Customizer</h1>
-      </div>
-      <div className="flex-1 py-1 overflow-auto">
-        <nav className="px-1 space-y-[1px]">
-          {navItems.map((item) => (
-            <Link
-              key={item.name}
-              to={item.href}
-              className={cn(
-                "flex items-center px-2 py-[5px] text-[14px] rounded-[3px] group transition-colors",
-                location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href))
-                  ? "bg-[#e8e7e4] text-[#37352f] font-medium"
-                  : "text-[#6b6b68] hover:bg-[#efefef]"
-              )}
-            >
-              <item.icon className="mr-1 h-[16px] w-[16px]" />
-              {item.name}
-            </Link>
-          ))}
-        </nav>
-      </div>
+    <div className="w-[180px] h-screen flex flex-col justify-center">
+      <nav className="space-y-6">
+        {navItems.map((item) => (
+          <Link
+            key={item.name}
+            to={item.href}
+            className={cn(
+              "flex items-center justify-center text-[15px] transition-colors hover:text-black",
+              location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href))
+                ? "text-black font-bold"
+                : "text-gray-500"
+            )}
+          >
+            {item.name}
+          </Link>
+        ))}
+      </nav>
     </div>
   );
 }
