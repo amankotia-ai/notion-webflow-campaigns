@@ -35,14 +35,14 @@ export function Sidebar() {
   ];
 
   return (
-    <div className="w-[180px] h-screen flex flex-col justify-center">
+    <div className="w-[180px] h-screen flex flex-col justify-center pl-4">
       <nav className="space-y-6">
         {navItems.map((item) => (
           <Link
             key={item.name}
             to={item.href}
             className={cn(
-              "flex items-center justify-center text-[15px] transition-colors hover:text-black",
+              "flex items-center text-[15px] transition-colors hover:text-black",
               location.pathname === item.href || (item.href !== "/" && location.pathname.startsWith(item.href))
                 ? "text-black font-bold"
                 : "text-gray-500"
