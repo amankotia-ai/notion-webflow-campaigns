@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, ArrowRight } from "lucide-react";
@@ -28,33 +27,6 @@ export default function Dashboard() {
         <p className="text-xl text-gray-500 font-normal">
           Here's what happened while you were away.
         </p>
-      </div>
-
-      {/* Stats Summary */}
-      <div className="bg-gray-50 rounded-2xl p-6 space-y-4">
-        <div className="flex flex-wrap gap-4 text-lg">
-          <div className="flex items-center gap-2">
-            <span className="text-gray-700">There were</span>
-            <span className="inline-flex items-center gap-1 px-2 py-1 bg-red-100 text-red-700 rounded-lg font-medium">
-              <span className="w-2 h-2 bg-red-500 rounded-full"></span>
-              13 issues
-            </span>
-            <span className="text-gray-700">and</span>
-            <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-700 rounded-lg font-medium">
-              <span className="w-2 h-2 bg-green-500 rounded-full"></span>
-              Orby resolved 11
-            </span>
-          </div>
-        </div>
-        <p className="text-lg text-gray-700">No breaches happened and SLA stayed at 96%.</p>
-        <div className="flex items-center gap-2 text-lg">
-          <span className="text-gray-700">Here are</span>
-          <span className="inline-flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded-lg font-medium">
-            <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-            3 suggestions
-          </span>
-          <span className="text-gray-700">to improve the pipeline.</span>
-        </div>
       </div>
 
       {/* Action Buttons */}
