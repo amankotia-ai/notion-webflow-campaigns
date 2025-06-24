@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { 
@@ -32,6 +31,7 @@ import { ArrowLeft } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "react-router-dom";
 
 // Form schema
 const campaignFormSchema = z.object({
@@ -112,32 +112,48 @@ export default function CampaignForm() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-3xl mx-auto px-6 py-8 space-y-8">
+      {/* Header */}
       <div className="flex items-center space-x-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate(-1)}>
-          <ArrowLeft className="h-4 w-4" />
+        <Button variant="ghost" size="icon" asChild className="hover:bg-gray-100 rounded-xl">
+          <Link to="/campaigns">
+            <ArrowLeft className="h-4 w-4" />
+          </Link>
         </Button>
-        <h1 className="text-3xl font-medium">
-          {isEditing ? "Edit Campaign" : "Create Campaign"}
-        </h1>
+        <div className="space-y-1">
+          <h1 className="text-4xl font-semibold text-gray-900 tracking-tight">
+            {isEditing ? "Edit Campaign" : "Create Campaign"}
+          </h1>
+          <p className="text-xl text-gray-500 font-normal">
+            {isEditing 
+              ? "Update your campaign settings and UTM parameters" 
+              : "Set up a new campaign with UTM tracking parameters"
+            }
+          </p>
+        </div>
       </div>
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">Basic Information</CardTitle>
-              <CardDescription>General campaign settings</CardDescription>
+          {/* Basic Information */}
+          <Card className="border-0 shadow-sm bg-white rounded-2xl">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-xl font-semibold text-gray-900">Basic Information</CardTitle>
+              <CardDescription className="text-gray-500">General campaign settings</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Campaign Name</FormLabel>
+                    <FormLabel className="text-gray-700 font-medium">Campaign Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., Summer Promotion 2023" {...field} />
+                      <Input 
+                        placeholder="e.g., Summer Promotion 2023" 
+                        className="border-gray-200 rounded-xl"
+                        {...field} 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -149,17 +165,17 @@ export default function CampaignForm() {
                 name="webpageId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Webpage</FormLabel>
+                    <FormLabel className="text-gray-700 font-medium">Webpage</FormLabel>
                     <Select 
                       onValueChange={onWebpageChange}
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="border-gray-200 rounded-xl">
                           <SelectValue placeholder="Select a webpage" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent className="rounded-xl border-gray-200">
                         {webpages.map((webpage) => (
                           <SelectItem key={webpage.id} value={webpage.id}>
                             {webpage.name}
@@ -169,7 +185,7 @@ export default function CampaignForm() {
                     </Select>
                     <FormDescription>
                       {selectedWebpage && (
-                        <div className="text-xs truncate mt-1">
+                        <div className="text-xs text-gray-500 mt-1">
                           URL: {selectedWebpage.url}
                         </div>
                       )}
@@ -184,17 +200,17 @@ export default function CampaignForm() {
                 name="status"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Status</FormLabel>
+                    <FormLabel className="text-gray-700 font-medium">Status</FormLabel>
                     <Select 
                       onValueChange={field.onChange} 
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="border-gray-200 rounded-xl">
                           <SelectValue placeholder="Select status" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent className="rounded-xl border-gray-200">
                         <SelectItem value="draft">Draft</SelectItem>
                         <SelectItem value="active">Active</SelectItem>
                         <SelectItem value="paused">Paused</SelectItem>
@@ -207,23 +223,28 @@ export default function CampaignForm() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-lg">UTM Parameters</CardTitle>
-              <CardDescription>Define tracking parameters for this campaign</CardDescription>
+          {/* UTM Parameters */}
+          <Card className="border-0 shadow-sm bg-white rounded-2xl">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-xl font-semibold text-gray-900">UTM Parameters</CardTitle>
+              <CardDescription className="text-gray-500">Define tracking parameters for this campaign</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
                   name="utmSource"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Source (utm_source)</FormLabel>
+                      <FormLabel className="text-gray-700 font-medium">Source (utm_source)</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., google, facebook, newsletter" {...field} />
+                        <Input 
+                          placeholder="e.g., google, facebook, newsletter" 
+                          className="border-gray-200 rounded-xl"
+                          {...field} 
+                        />
                       </FormControl>
-                      <FormDescription>
+                      <FormDescription className="text-gray-500">
                         Identifies which site sent the traffic
                       </FormDescription>
                       <FormMessage />
@@ -236,11 +257,15 @@ export default function CampaignForm() {
                   name="utmMedium"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Medium (utm_medium)</FormLabel>
+                      <FormLabel className="text-gray-700 font-medium">Medium (utm_medium)</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., cpc, email, social" {...field} />
+                        <Input 
+                          placeholder="e.g., cpc, email, social" 
+                          className="border-gray-200 rounded-xl"
+                          {...field} 
+                        />
                       </FormControl>
-                      <FormDescription>
+                      <FormDescription className="text-gray-500">
                         Identifies what type of link was used
                       </FormDescription>
                       <FormMessage />
@@ -254,11 +279,15 @@ export default function CampaignForm() {
                 name="utmCampaign"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Campaign Name (utm_campaign)</FormLabel>
+                    <FormLabel className="text-gray-700 font-medium">Campaign Name (utm_campaign)</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., spring_sale, product_launch" {...field} />
+                      <Input 
+                        placeholder="e.g., spring_sale, product_launch" 
+                        className="border-gray-200 rounded-xl"
+                        {...field} 
+                      />
                     </FormControl>
-                    <FormDescription>
+                    <FormDescription className="text-gray-500">
                       Identifies a specific product promotion or strategic campaign
                     </FormDescription>
                     <FormMessage />
@@ -272,11 +301,15 @@ export default function CampaignForm() {
                   name="utmTerm"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Term (utm_term) - Optional</FormLabel>
+                      <FormLabel className="text-gray-700 font-medium">Term (utm_term) - Optional</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., running+shoes" {...field} />
+                        <Input 
+                          placeholder="e.g., running+shoes" 
+                          className="border-gray-200 rounded-xl"
+                          {...field} 
+                        />
                       </FormControl>
-                      <FormDescription>
+                      <FormDescription className="text-gray-500">
                         Identifies search terms
                       </FormDescription>
                       <FormMessage />
@@ -289,11 +322,15 @@ export default function CampaignForm() {
                   name="utmContent"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Content (utm_content) - Optional</FormLabel>
+                      <FormLabel className="text-gray-700 font-medium">Content (utm_content) - Optional</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., logolink, textlink" {...field} />
+                        <Input 
+                          placeholder="e.g., logolink, textlink" 
+                          className="border-gray-200 rounded-xl"
+                          {...field} 
+                        />
                       </FormControl>
-                      <FormDescription>
+                      <FormDescription className="text-gray-500">
                         Identifies what specifically was clicked
                       </FormDescription>
                       <FormMessage />
@@ -302,15 +339,19 @@ export default function CampaignForm() {
                 />
               </div>
             </CardContent>
-            <CardFooter className="flex justify-between">
+            <CardFooter className="flex justify-end space-x-3 pt-4">
               <Button 
-                variant="outline" 
+                variant="outline"
                 type="button"
+                className="border-gray-300 hover:bg-gray-50 px-6 py-2 rounded-xl font-medium"
                 onClick={() => navigate("/campaigns")}
               >
                 Cancel
               </Button>
-              <Button type="submit">
+              <Button 
+                type="submit"
+                className="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2 rounded-xl font-medium"
+              >
                 {isEditing ? "Update Campaign" : "Create Campaign"}
               </Button>
             </CardFooter>

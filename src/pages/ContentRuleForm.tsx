@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import { 
   Card, 
   CardContent, 
@@ -42,63 +42,75 @@ export default function ContentRuleForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Form submitted:", formState);
-    
-    // In a real app, you'd save the data here
     navigate(`/campaigns/${id}`);
   };
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-3xl mx-auto px-6 py-8 space-y-8">
+      {/* Header */}
       <div className="flex items-center space-x-4">
-        <Button variant="ghost" size="icon" onClick={() => navigate(`/campaigns/${id}`)}>
-          <ArrowLeft className="h-4 w-4" />
+        <Button variant="ghost" size="icon" asChild className="hover:bg-gray-100 rounded-xl">
+          <Link to={`/campaigns/${id}`}>
+            <ArrowLeft className="h-4 w-4" />
+          </Link>
         </Button>
-        <h1 className="text-3xl font-medium">
-          {isEditing ? "Edit Content Rule" : "Create Content Rule"}
-        </h1>
+        <div className="space-y-1">
+          <h1 className="text-4xl font-semibold text-gray-900 tracking-tight">
+            {isEditing ? "Edit Content Rule" : "Create Content Rule"}
+          </h1>
+          <p className="text-xl text-gray-500 font-normal">
+            {isEditing 
+              ? "Update the content replacement rule for this campaign" 
+              : "Define dynamic content based on UTM parameters"
+            }
+          </p>
+        </div>
       </div>
 
-      <Card>
-        <form onSubmit={handleSubmit}>
-          <CardHeader>
-            <CardTitle className="text-lg">Element Information</CardTitle>
-            <CardDescription>Identify the element you want to modify</CardDescription>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Element Information */}
+        <Card className="border-0 shadow-sm bg-white rounded-2xl">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-xl font-semibold text-gray-900">Element Information</CardTitle>
+            <CardDescription className="text-gray-500">Identify the element you want to modify</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="elementId">Element ID</Label>
+                <Label htmlFor="elementId" className="text-gray-700 font-medium">Element ID</Label>
                 <Input 
                   id="elementId" 
                   name="elementId" 
                   placeholder="e.g., hero-heading, cta-button"
                   value={formState.elementId}
                   onChange={handleChange}
+                  className="border-gray-200 rounded-xl"
                   required
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-gray-500">
                   The HTML ID of the element to modify
                 </p>
               </div>
               
               <div className="space-y-2">
-                <Label htmlFor="elementName">Display Name</Label>
+                <Label htmlFor="elementName" className="text-gray-700 font-medium">Display Name</Label>
                 <Input 
                   id="elementName" 
                   name="elementName" 
                   placeholder="e.g., Hero Heading, CTA Button"
                   value={formState.elementName}
                   onChange={handleChange}
+                  className="border-gray-200 rounded-xl"
                   required
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-xs text-gray-500">
                   A friendly name to identify this element
                 </p>
               </div>
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="originalContent">Original Content</Label>
+              <Label htmlFor="originalContent" className="text-gray-700 font-medium">Original Content</Label>
               <Textarea 
                 id="originalContent" 
                 name="originalContent" 
@@ -106,20 +118,24 @@ export default function ContentRuleForm() {
                 value={formState.originalContent}
                 onChange={handleChange}
                 rows={3}
+                className="border-gray-200 rounded-xl"
               />
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-gray-500">
                 The current content of the element (optional, for reference)
               </p>
             </div>
           </CardContent>
-          
-          <CardHeader>
-            <CardTitle className="text-lg">Replacement Content</CardTitle>
-            <CardDescription>Define the new content for this UTM campaign</CardDescription>
+        </Card>
+        
+        {/* Replacement Content */}
+        <Card className="border-0 shadow-sm bg-white rounded-2xl">
+          <CardHeader className="pb-4">
+            <CardTitle className="text-xl font-semibold text-gray-900">Replacement Content</CardTitle>
+            <CardDescription className="text-gray-500">Define the new content for this UTM campaign</CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="newContent">New Content</Label>
+              <Label htmlFor="newContent" className="text-gray-700 font-medium">New Content</Label>
               <Textarea 
                 id="newContent" 
                 name="newContent" 
@@ -127,36 +143,41 @@ export default function ContentRuleForm() {
                 value={formState.newContent}
                 onChange={handleChange}
                 rows={4}
+                className="border-gray-200 rounded-xl"
                 required
               />
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-gray-500">
                 The content that will replace the original when the UTM parameters match
               </p>
             </div>
             
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <Switch 
                 id="active"
                 checked={formState.active}
                 onCheckedChange={handleSwitchChange}
               />
-              <Label htmlFor="active">Active</Label>
+              <Label htmlFor="active" className="text-gray-700 font-medium">Active</Label>
             </div>
           </CardContent>
-          <CardFooter className="flex justify-between">
+          <CardFooter className="flex justify-end space-x-3 pt-4">
             <Button 
               variant="outline" 
               type="button"
+              className="border-gray-300 hover:bg-gray-50 px-6 py-2 rounded-xl font-medium"
               onClick={() => navigate(`/campaigns/${id}`)}
             >
               Cancel
             </Button>
-            <Button type="submit">
+            <Button 
+              type="submit"
+              className="bg-gray-900 hover:bg-gray-800 text-white px-6 py-2 rounded-xl font-medium"
+            >
               {isEditing ? "Update Rule" : "Create Rule"}
             </Button>
           </CardFooter>
-        </form>
-      </Card>
+        </Card>
+      </form>
     </div>
   );
 }

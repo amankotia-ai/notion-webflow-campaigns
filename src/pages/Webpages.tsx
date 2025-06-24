@@ -31,10 +31,16 @@ export default function Webpages() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-5xl mx-auto px-6 py-8 space-y-8">
+      {/* Header Section */}
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-medium">Webpages</h1>
-        <Button asChild>
+        <div className="space-y-2">
+          <h1 className="text-4xl font-semibold text-gray-900 tracking-tight">Webpages</h1>
+          <p className="text-xl text-gray-500 font-normal">
+            Manage your registered webpages and their campaigns.
+          </p>
+        </div>
+        <Button asChild className="bg-gray-900 hover:bg-gray-800 text-white px-6 py-3 rounded-xl font-medium">
           <Link to="/webpages/new">
             <Plus className="mr-2 h-4 w-4" />
             Add Webpage
@@ -42,19 +48,28 @@ export default function Webpages() {
         </Button>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg">All Webpages</CardTitle>
-          <CardDescription>Manage your registered webpages</CardDescription>
+      {/* Main Content */}
+      <Card className="border-0 shadow-sm bg-white rounded-2xl">
+        <CardHeader className="pb-4">
+          <div className="flex justify-between items-start">
+            <div className="space-y-1">
+              <CardTitle className="text-xl font-semibold text-gray-900">
+                All Webpages
+              </CardTitle>
+              <CardDescription className="text-gray-500">
+                Manage your registered webpages
+              </CardDescription>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
-          <div className="flex mb-4">
+          <div className="flex mb-6">
             <div className="relative w-full max-w-sm">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
               <Input
                 type="search"
                 placeholder="Search webpages..."
-                className="pl-8"
+                className="pl-10 border-gray-200 rounded-xl"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -63,27 +78,27 @@ export default function Webpages() {
 
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>URL</TableHead>
-                <TableHead>Campaigns</TableHead>
-                <TableHead>Date Added</TableHead>
-                <TableHead className="w-[100px]">Actions</TableHead>
+              <TableRow className="border-gray-100">
+                <TableHead className="text-gray-600 font-medium">Name</TableHead>
+                <TableHead className="text-gray-600 font-medium">URL</TableHead>
+                <TableHead className="text-gray-600 font-medium">Campaigns</TableHead>
+                <TableHead className="text-gray-600 font-medium">Date Added</TableHead>
+                <TableHead className="w-[100px] text-gray-600 font-medium">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredWebpages.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={5} className="text-center py-8 text-muted-foreground">
+                  <TableCell colSpan={5} className="text-center py-8 text-gray-500">
                     No webpages found
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredWebpages.map((page) => (
-                  <TableRow key={page.id}>
-                    <TableCell className="font-medium">
+                  <TableRow key={page.id} className="border-gray-100">
+                    <TableCell className="font-medium text-gray-900">
                       <div className="flex items-center">
-                        <Globe className="h-4 w-4 mr-2 text-muted-foreground" />
+                        <Globe className="h-4 w-4 mr-2 text-gray-400" />
                         {page.name}
                       </div>
                     </TableCell>
@@ -92,22 +107,22 @@ export default function Webpages() {
                         href={page.url} 
                         target="_blank" 
                         rel="noreferrer" 
-                        className="flex items-center hover:underline text-muted-foreground"
+                        className="flex items-center hover:underline text-gray-500"
                       >
                         {page.url}
                         <ExternalLink className="h-3 w-3 ml-1 inline" />
                       </a>
                     </TableCell>
-                    <TableCell>{page.campaigns}</TableCell>
-                    <TableCell className="text-muted-foreground">{page.dateAdded}</TableCell>
+                    <TableCell className="text-gray-900">{page.campaigns}</TableCell>
+                    <TableCell className="text-gray-500">{page.dateAdded}</TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="icon">
+                          <Button variant="ghost" size="icon" className="hover:bg-gray-100">
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
+                        <DropdownMenuContent align="end" className="rounded-xl border-gray-200">
                           <DropdownMenuItem asChild>
                             <Link to={`/webpages/${page.id}`}>View Details</Link>
                           </DropdownMenuItem>
@@ -117,7 +132,7 @@ export default function Webpages() {
                           <DropdownMenuItem asChild>
                             <Link to={`/campaigns/new?webpage=${page.id}`}>Create Campaign</Link>
                           </DropdownMenuItem>
-                          <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+                          <DropdownMenuItem className="text-red-600">Delete</DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
